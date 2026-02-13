@@ -11,7 +11,10 @@ extends Control
 @onready var status_label: Label = %StatusLabel
 @onready var biome_badge: PanelContainer = %BiomeBadge
 @onready var biome_label: Label = %BiomeLabel
+@onready var nav_reino: Button = %NavReino
+@onready var nav_saco: Button = %NavSaco
 @onready var nav_estilo: Button = %NavEstilo
+@onready var nav_social: Button = %NavSocial
 @onready var notification_panel: PanelContainer = %NotificationPanel
 @onready var notification_text: Label = %NotificationText
 @onready var option_1: Button = %Option1
@@ -57,7 +60,11 @@ func _ready() -> void:
 	option_1.pressed.connect(_on_option_1_pressed)
 	option_2.pressed.connect(_on_option_2_pressed)
 	confirm_button.pressed.connect(_on_confirm_customization)
+
+	nav_reino.pressed.connect(func(): _show_placeholder_notification("Reino"))
+	nav_saco.pressed.connect(func(): _show_placeholder_notification("Saco"))
 	nav_estilo.pressed.connect(func(): customization_panel.show(); autonomy_timer.paused = true)
+	nav_social.pressed.connect(func(): _show_placeholder_notification("Social"))
 
 	# Inicializar opciones de personalización
 	hair_style_btn.add_item("Lacio", 0)
@@ -206,6 +213,12 @@ func _check_death() -> void:
 		_show_reset_notification(stats.legacy_bonus)
 
 # FUNCIÓN CORREGIDA: Muestra el panel de reinicio (ya sea por muerte o gloria)
+func _show_placeholder_notification(menu_name: String) -> void:
+	notification_text.text = "El menú de %s estará disponible pronto en la versión final." % menu_name
+	option_1.text = "Entendido"
+	option_2.text = "Cerrar"
+	notification_panel.show()
+
 func _show_reset_notification(new_legacy: float) -> void:
 	option_1.text = "Resurgir / Nuevo Ciclo"
 	option_2.text = "Aceptar Destino"

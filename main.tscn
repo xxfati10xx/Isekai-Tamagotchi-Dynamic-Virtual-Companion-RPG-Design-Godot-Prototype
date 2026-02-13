@@ -1,7 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b8y7k4u5q6m7"]
+[gd_scene load_steps=9 format=3 uid="uid://b8y7k4u5q6m7"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://c6y7k4u5q6m7" path="res://CharacterVisuals.tscn" id="2_visuals"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_notch"]
+bg_color = Color(0.16, 0.16, 0.21, 1)
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp"]
 bg_color = Color(0.1, 0.1, 0.1, 0.5)
@@ -54,6 +59,18 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
+
+[node name="Notch" type="Panel" parent="."]
+custom_minimum_size = Vector2(160, 32)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_right = 80.0
+offset_bottom = 32.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_notch")
 
 [node name="HUDTop" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -110,6 +127,14 @@ show_percentage = false
 [node name="Currency" type="VBoxContainer" parent="HUDTop/HBox"]
 layout_mode = 2
 alignment = 1
+
+[node name="StatusLabel" type="Label" parent="HUDTop/HBox/Currency"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.8)
+theme_override_font_sizes/font_size = 10
+text = "Explorando..."
+horizontal_alignment = 2
 
 [node name="GemLabel" type="Label" parent="HUDTop/HBox/Currency"]
 unique_name_in_owner = true
@@ -220,14 +245,16 @@ grow_vertical = 0
 alignment = 1
 
 [node name="NavReino" type="Button" parent="NavBar"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🏰"
+text = "🏰 Reino"
 
 [node name="NavSaco" type="Button" parent="NavBar"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🎒"
+text = "🎒 Saco"
 
 [node name="ActionSphere" type="Button" parent="NavBar"]
 unique_name_in_owner = true
@@ -240,12 +267,13 @@ text = "⚔️"
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "👕"
+text = "👕 Estilo"
 
 [node name="NavSocial" type="Button" parent="NavBar"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-text = "🧙"
+text = "🧙 Social"
 
 [node name="NotificationPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
