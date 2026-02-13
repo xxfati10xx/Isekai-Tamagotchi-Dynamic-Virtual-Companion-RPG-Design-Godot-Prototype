@@ -2,6 +2,7 @@ extends Resource
 class_name CharacterStats
 
 # Atributos principales (Las cuatro Dimensiones del Alma)
+@export var character_name: String = "Kaelen"
 @export var valor: float = 50.0
 @export var sabiduria: float = 50.0
 @export var empatia: float = 50.0
@@ -12,7 +13,8 @@ class_name CharacterStats
 @export var legacy_bonus: float = 0.0
 
 # Inicialización de las estadísticas al crear un nuevo personaje
-func _init(_valor: float = 50.0, _sabiduria: float = 50.0, _empatia: float = 50.0, _ambicion: float = 50.0, _level: int = 1, _legacy_bonus: float = 0.0):
+func _init(_character_name: String = "Kaelen", _valor: float = 50.0, _sabiduria: float = 50.0, _empatia: float = 50.0, _ambicion: float = 50.0, _level: int = 1, _legacy_bonus: float = 0.0):
+	character_name = _character_name
 	valor = _valor
 	sabiduria = _sabiduria
 	empatia = _empatia
