@@ -2,15 +2,16 @@ extends Control
 
 # Enlaces a los nodos de la interfaz (Usando % para Nodos Únicos de Escena)
 @onready var world_background: TextureRect = %WorldBackground
-@onready var action_button: Button = %ActionButton
+@onready var action_sphere: Button = %ActionSphere
 @onready var character_visuals: Node2D = %CharacterVisuals
-@onready var valor_bar: ProgressBar = %ValorBar
-@onready var sabiduria_bar: ProgressBar = %SabiduriaBar
-@onready var empatia_label: Label = %EmpatiaLabel
-@onready var ambicion_label: Label = %AmbicionLabel
+@onready var hp_bar: ProgressBar = %HPBar
+@onready var mp_bar: ProgressBar = %MPBar
+@onready var gem_label: Label = %GemLabel
 @onready var name_label: Label = %NameLabel
 @onready var status_label: Label = %StatusLabel
-@onready var biome_badge: Label = %BiomeBadge
+@onready var biome_badge: PanelContainer = %BiomeBadge
+@onready var biome_label: Label = %BiomeLabel
+@onready var nav_estilo: Button = %NavEstilo
 @onready var notification_panel: PanelContainer = %NotificationPanel
 @onready var notification_text: Label = %NotificationText
 @onready var option_1: Button = %Option1
@@ -52,10 +53,11 @@ func _ready() -> void:
 
 	# Estado inicial
 	world_background.texture = normal_gradient
-	action_button.pressed.connect(_on_action_button_pressed)
+	action_sphere.pressed.connect(_on_action_button_pressed)
 	option_1.pressed.connect(_on_option_1_pressed)
 	option_2.pressed.connect(_on_option_2_pressed)
 	confirm_button.pressed.connect(_on_confirm_customization)
+	nav_estilo.pressed.connect(func(): customization_panel.show(); autonomy_timer.paused = true)
 
 	# Inicializar opciones de personalización
 	hair_style_btn.add_item("Lacio", 0)
@@ -97,6 +99,8 @@ func _on_confirm_customization() -> void:
 
 	customization_panel.hide()
 	autonomy_timer.paused = false
+	if character_visuals:
+		character_visuals.update_appearance(stats, true)
 	_update_stats_display()
 	_start_idle_animation() # Reiniciar animación con nueva escala
 
@@ -107,16 +111,16 @@ func _on_action_button_pressed() -> void:
 	
 	if is_combat:
 		world_background.texture = combat_gradient
-		tween.tween_property(action_button, "rotation_degrees", 45.0, 0.2)
-		tween.tween_property(action_button, "scale", Vector2(1.2, 1.2), 0.2)
+		tween.tween_property(action_sphere, "rotation_degrees", 45.0, 0.2)
+		tween.tween_property(action_sphere, "scale", Vector2(1.2, 1.2), 0.2)
 		status_label.text = "En combate"
-		biome_badge.text = "📍 CAMPO DE BATALLA"
+		biome_label.text = "📍 CAMPO DE BATALLA"
 	else:
 		world_background.texture = normal_gradient
-		tween.tween_property(action_button, "rotation_degrees", 0.0, 0.2)
-		tween.tween_property(action_button, "scale", Vector2(1.0, 1.0), 0.2)
+		tween.tween_property(action_sphere, "rotation_degrees", 0.0, 0.2)
+		tween.tween_property(action_sphere, "scale", Vector2(1.0, 1.0), 0.2)
 		status_label.text = "Explorando..."
-		biome_badge.text = "📍 DESFILADERO DE LAS SOMBRAS"
+		biome_label.text = "📍 DESFILADERO DE LAS SOMBRAS"
 
 # Lógica que ocurre automáticamente en cada "tick" del reloj
 func _on_autonomy_tick() -> void:
@@ -214,8 +218,10 @@ func _reset_character(legacy_bonus: float) -> void:
 	stats = CharacterStats.new("Kaelen", 50, 50, 50, 50, 1, legacy_bonus)
 	is_combat = false
 	world_background.texture = normal_gradient
-	action_button.rotation_degrees = 0
-	action_button.scale = Vector2.ONE
+	action_sphere.rotation_degrees = 0
+	action_sphere.scale = Vector2.ONE
+	if character_visuals:
+		character_visuals.update_appearance(stats, true)
 	_update_stats_display()
 	status_label.text = "Nuevo ciclo iniciado"
 	notification_panel.remove_meta("is_reset")
@@ -225,14 +231,13 @@ func _reset_character(legacy_bonus: float) -> void:
 
 # Actualiza barras y textos de la interfaz
 func _update_stats_display() -> void:
-	valor_bar.value = stats.valor
-	sabiduria_bar.value = stats.sabiduria
-	empatia_label.text = "Empatía: %.0f" % stats.empatia
-	ambicion_label.text = "Ambición: %.0f" % stats.ambicion
+	hp_bar.value = stats.valor
+	mp_bar.value = stats.sabiduria
+	gem_label.text = "%.0f 💎" % stats.ambicion
 	name_label.text = "%s - NIV. %d" % [stats.character_name, stats.level]
 	
 	if character_visuals:
-		character_visuals.update_appearance(stats)
+		character_visuals.update_appearance(stats, false)
 	
 	_update_background_aura()
 

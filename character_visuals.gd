@@ -6,7 +6,7 @@ extends Node2D
 @onready var mouth: Label = $Mouth
 @onready var hair: Label = $Hair
 
-func update_appearance(stats: CharacterStats):
+func update_appearance(stats: CharacterStats, update_scale: bool = true):
 	if body:
 		body.color = stats.skin_color
 	if head:
@@ -32,7 +32,8 @@ func update_appearance(stats: CharacterStats):
 		_: hair.text = ""
 
 	# El estilo de cuerpo afecta la escala general
-	match stats.body_style:
-		0: scale = Vector2(1, 1)
-		1: scale = Vector2(0.8, 0.8)
-		2: scale = Vector2(1.2, 1.2)
+	if update_scale:
+		match stats.body_style:
+			0: scale = Vector2(1, 1)
+			1: scale = Vector2(0.8, 0.8)
+			2: scale = Vector2(1.2, 1.2)
