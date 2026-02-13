@@ -22,10 +22,14 @@ extends Control
 @onready var customization_panel: PanelContainer = %CustomizationPanel
 @onready var name_input: LineEdit = %NameInput
 @onready var skin_color: ColorPickerButton = %SkinColor
+@onready var hair_color: ColorPickerButton = %HairColor
+@onready var eye_color: ColorPickerButton = %EyeColor
+@onready var outfit_color: ColorPickerButton = %OutfitColor
 @onready var hair_style_btn: OptionButton = %HairStyle
 @onready var eye_style_btn: OptionButton = %EyeStyle
 @onready var mouth_style_btn: OptionButton = %MouthStyle
 @onready var body_style_btn: OptionButton = %BodyStyle
+@onready var toggle_mode_button: Button = %ToggleModeButton
 @onready var confirm_button: Button = %ConfirmButton
 
 # Estados del juego
@@ -60,24 +64,35 @@ func _ready() -> void:
 	option_1.pressed.connect(_on_option_1_pressed)
 	option_2.pressed.connect(_on_option_2_pressed)
 	confirm_button.pressed.connect(_on_confirm_customization)
+	toggle_mode_button.pressed.connect(_on_toggle_mode_pressed)
 
 	nav_reino.pressed.connect(func(): _show_placeholder_notification("Reino"))
 	nav_saco.pressed.connect(func(): _show_placeholder_notification("Saco"))
-	nav_estilo.pressed.connect(func(): customization_panel.show(); autonomy_timer.paused = true)
+	nav_estilo.pressed.connect(_open_customization)
 	nav_social.pressed.connect(func(): _show_placeholder_notification("Social"))
 
 	# Inicializar opciones de personalización
 	hair_style_btn.add_item("Lacio", 0)
 	hair_style_btn.add_item("Rizado", 1)
 	hair_style_btn.add_item("Picos", 2)
+	hair_style_btn.add_item("Ondulado", 3)
+	hair_style_btn.add_item("Trenzas", 4)
+	hair_style_btn.add_item("Estrellas", 5)
 
 	eye_style_btn.add_item("Normal", 0)
 	eye_style_btn.add_item("Enojado", 1)
 	eye_style_btn.add_item("Muerto", 2)
+	eye_style_btn.add_item("Feliz", 3)
+	eye_style_btn.add_item("Sorprendido", 4)
+	eye_style_btn.add_item("Tímido", 5)
+	eye_style_btn.add_item("Dormido", 6)
 
 	mouth_style_btn.add_item("Feliz", 0)
 	mouth_style_btn.add_item("Asombrado", 1)
 	mouth_style_btn.add_item("Serio", 2)
+	mouth_style_btn.add_item("Gato", 3)
+	mouth_style_btn.add_item("Pequeño", 4)
+	mouth_style_btn.add_item("Pico", 5)
 
 	body_style_btn.add_item("Normal", 0)
 	body_style_btn.add_item("Pequeño", 1)
@@ -85,6 +100,7 @@ func _ready() -> void:
 	
 	_start_idle_animation()
 	_update_stats_display()
+	_open_customization()
 	
 	# Iniciamos el Ciclo de Autonomía (el personaje vive solo cada 5 seg)
 	autonomy_timer = Timer.new()
@@ -94,11 +110,28 @@ func _ready() -> void:
 	add_child(autonomy_timer)
 	autonomy_timer.paused = true
 
+func _open_customization() -> void:
+	name_input.text = stats.character_name
+	skin_color.color = stats.skin_color
+	hair_color.color = stats.hair_color
+	eye_color.color = stats.eye_color
+	outfit_color.color = stats.outfit_color
+	hair_style_btn.select(hair_style_btn.get_item_index(stats.hair_style))
+	eye_style_btn.select(eye_style_btn.get_item_index(stats.eye_style))
+	mouth_style_btn.select(mouth_style_btn.get_item_index(stats.mouth_style))
+	body_style_btn.select(body_style_btn.get_item_index(stats.body_style))
+
+	customization_panel.show()
+	autonomy_timer.paused = true
+
 func _on_confirm_customization() -> void:
 	if name_input.text != "":
 		stats.character_name = name_input.text
 
 	stats.skin_color = skin_color.color
+	stats.hair_color = hair_color.color
+	stats.eye_color = eye_color.color
+	stats.outfit_color = outfit_color.color
 	stats.hair_style = hair_style_btn.get_selected_id()
 	stats.eye_style = eye_style_btn.get_selected_id()
 	stats.mouth_style = mouth_style_btn.get_selected_id()
@@ -110,6 +143,18 @@ func _on_confirm_customization() -> void:
 		character_visuals.update_appearance(stats, true)
 	_update_stats_display()
 	_start_idle_animation() # Reiniciar animación con nueva escala
+
+func _on_toggle_mode_pressed() -> void:
+	# Toggle Mode: Cambia el set de rasgos faciales entre ASCII simple y algo más "complejo"
+	# En esta implementación asset-free, lo usamos para rotar entre escalas de las etiquetas
+	if character_visuals.eyes.scale.x == 1.0:
+		character_visuals.eyes.scale = Vector2(1.5, 1.5)
+		character_visuals.mouth.scale = Vector2(1.5, 1.5)
+		status_label.text = "Modo: Detallado"
+	else:
+		character_visuals.eyes.scale = Vector2(1.0, 1.0)
+		character_visuals.mouth.scale = Vector2(1.0, 1.0)
+		status_label.text = "Modo: Simple"
 
 # Alterna entre el modo paz y el modo combate
 func _on_action_button_pressed() -> void:

@@ -318,19 +318,26 @@ text = "Opción 2"
 [node name="CustomizationPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -220.0
+offset_right = 160.0
+offset_bottom = 220.0
 grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBox" type="VBoxContainer" parent="CustomizationPanel"]
 layout_mode = 2
-size_flags_horizontal = 4
+theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Label" type="Label" parent="CustomizationPanel/VBox"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "Personaliza tu personaje"
 horizontal_alignment = 1
 
@@ -340,68 +347,94 @@ layout_mode = 2
 placeholder_text = "Nombre del personaje"
 alignment = 1
 
-[node name="HBoxSkin" type="HBoxContainer" parent="CustomizationPanel/VBox"]
+[node name="Grid" type="GridContainer" parent="CustomizationPanel/VBox"]
 layout_mode = 2
+theme_override_constants/h_separation = 10
+columns = 2
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxSkin"]
+[node name="LabelSkin" type="Label" parent="CustomizationPanel/VBox/Grid"]
 layout_mode = 2
-text = "Color de Piel: "
+text = "Piel:"
 
-[node name="SkinColor" type="ColorPickerButton" parent="CustomizationPanel/VBox/HBoxSkin"]
+[node name="SkinColor" type="ColorPickerButton" parent="CustomizationPanel/VBox/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(1, 0.878431, 0.741176, 1)
 
-[node name="HBoxHair" type="HBoxContainer" parent="CustomizationPanel/VBox"]
+[node name="LabelHairC" type="Label" parent="CustomizationPanel/VBox/Grid"]
 layout_mode = 2
+text = "Pelo:"
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxHair"]
+[node name="HairColor" type="ColorPickerButton" parent="CustomizationPanel/VBox/Grid"]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Peinado: "
+size_flags_horizontal = 3
+color = Color(0.294118, 0.172549, 0.12549, 1)
 
-[node name="HairStyle" type="OptionButton" parent="CustomizationPanel/VBox/HBoxHair"]
+[node name="LabelEyeC" type="Label" parent="CustomizationPanel/VBox/Grid"]
+layout_mode = 2
+text = "Ojos:"
+
+[node name="EyeColor" type="ColorPickerButton" parent="CustomizationPanel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0, 0, 0, 1)
+
+[node name="LabelOutfit" type="Label" parent="CustomizationPanel/VBox/Grid"]
+layout_mode = 2
+text = "Ropa:"
+
+[node name="OutfitColor" type="ColorPickerButton" parent="CustomizationPanel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.227451, 0.431373, 0.647059, 1)
+
+[node name="LabelHair" type="Label" parent="CustomizationPanel/VBox/Grid"]
+layout_mode = 2
+text = "Peinado:"
+
+[node name="HairStyle" type="OptionButton" parent="CustomizationPanel/VBox/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxEyes" type="HBoxContainer" parent="CustomizationPanel/VBox"]
+[node name="LabelEyes" type="Label" parent="CustomizationPanel/VBox/Grid"]
 layout_mode = 2
+text = "Ojos:"
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxEyes"]
-layout_mode = 2
-text = "Ojos: "
-
-[node name="EyeStyle" type="OptionButton" parent="CustomizationPanel/VBox/HBoxEyes"]
+[node name="EyeStyle" type="OptionButton" parent="CustomizationPanel/VBox/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxMouth" type="HBoxContainer" parent="CustomizationPanel/VBox"]
+[node name="LabelMouth" type="Label" parent="CustomizationPanel/VBox/Grid"]
 layout_mode = 2
+text = "Boca:"
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxMouth"]
-layout_mode = 2
-text = "Boca: "
-
-[node name="MouthStyle" type="OptionButton" parent="CustomizationPanel/VBox/HBoxMouth"]
+[node name="MouthStyle" type="OptionButton" parent="CustomizationPanel/VBox/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxBody" type="HBoxContainer" parent="CustomizationPanel/VBox"]
+[node name="LabelBody" type="Label" parent="CustomizationPanel/VBox/Grid"]
 layout_mode = 2
+text = "Físico:"
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxBody"]
-layout_mode = 2
-text = "Físico: "
-
-[node name="BodyStyle" type="OptionButton" parent="CustomizationPanel/VBox/HBoxBody"]
+[node name="BodyStyle" type="OptionButton" parent="CustomizationPanel/VBox/Grid"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="ToggleModeButton" type="Button" parent="CustomizationPanel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TOGGLE MODE"
 
 [node name="ConfirmButton" type="Button" parent="CustomizationPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_font_sizes/font_size = 18
 text = "Empezar Aventura"
