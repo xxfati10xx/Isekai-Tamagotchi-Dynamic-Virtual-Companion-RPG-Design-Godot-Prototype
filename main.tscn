@@ -1,7 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://b8y7k4u5q6m7"]
+[gd_scene load_steps=7 format=3 uid="uid://b8y7k4u5q6m7"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_script"]
 [ext_resource type="PackedScene" uid="uid://c6y7k4u5q6m7" path="res://CharacterVisuals.tscn" id="2_visuals"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp"]
+bg_color = Color(0.1, 0.1, 0.1, 0.5)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp_fill"]
+bg_color = Color(1, 0.29, 0.42, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mp_fill"]
+bg_color = Color(0.31, 0.67, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_biome"]
+bg_color = Color(1, 1, 1, 0.1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.2)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -22,116 +55,197 @@ grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 1
 
-[node name="StatsContainer" type="VBoxContainer" parent="."]
+[node name="HUDTop" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 20
+
+[node name="HBox" type="HBoxContainer" parent="HUDTop"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Portrait" type="Label" parent="HUDTop/HBox"]
+custom_minimum_size = Vector2(60, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "🛡️"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="StatusBars" type="VBoxContainer" parent="HUDTop/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="NameLabel" type="Label" parent="HUDTop/HBox/StatusBars"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Kaelen - Niv. 1"
+uppercase = true
+
+[node name="HPBar" type="ProgressBar" parent="HUDTop/HBox/StatusBars"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp_fill")
+value = 85.0
+show_percentage = false
+
+[node name="MPBar" type="ProgressBar" parent="HUDTop/HBox/StatusBars"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_hp")
+theme_override_styles/fill = SubResource("StyleBoxFlat_mp_fill")
+value = 60.0
+show_percentage = false
+
+[node name="Currency" type="VBoxContainer" parent="HUDTop/HBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="GemLabel" type="Label" parent="HUDTop/HBox/Currency"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.843137, 0, 1)
+theme_override_font_sizes/font_size = 14
+text = "0 💎"
+horizontal_alignment = 2
+
+[node name="WorldName" type="Label" parent="HUDTop/HBox/Currency"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.6)
+theme_override_font_sizes/font_size = 10
+text = "Aethelgard"
+horizontal_alignment = 2
+
+[node name="BiomeBadge" type="PanelContainer" parent="."]
+unique_name_in_owner = true
 layout_mode = 0
 offset_left = 20.0
-offset_top = 20.0
-offset_right = 220.0
-offset_bottom = 200.0
+offset_top = 110.0
+offset_right = 180.0
+offset_bottom = 136.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_biome")
 
-[node name="NameLabel" type="Label" parent="StatsContainer"]
+[node name="BiomeLabel" type="Label" parent="BiomeBadge"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Kaelen"
-
-[node name="BiomeBadge" type="Label" parent="StatsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
+theme_override_font_sizes/font_size = 10
 text = "📍 DESFILADERO"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="HBoxValor" type="HBoxContainer" parent="StatsContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="StatsContainer/HBoxValor"]
-layout_mode = 2
-text = "Valor: "
-
-[node name="ValorBar" type="ProgressBar" parent="StatsContainer/HBoxValor"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-value = 50.0
-
-[node name="HBoxSabiduria" type="HBoxContainer" parent="StatsContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="StatsContainer/HBoxSabiduria"]
-layout_mode = 2
-text = "Sabiduría: "
-
-[node name="SabiduriaBar" type="ProgressBar" parent="StatsContainer/HBoxSabiduria"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(100, 20)
-layout_mode = 2
-size_flags_horizontal = 3
-value = 50.0
-
-[node name="EmpatiaLabel" type="Label" parent="StatsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Empatía: 50"
-
-[node name="AmbicionLabel" type="Label" parent="StatsContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-text = "Ambición: 50"
-
-[node name="EquipmentContainer" type="VBoxContainer" parent="."]
+[node name="Sidebar" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = 6
 anchor_left = 1.0
+anchor_top = 0.5
 anchor_right = 1.0
-offset_left = -300.0
-offset_top = 20.0
-offset_right = -20.0
-offset_bottom = 156.0
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -100.0
+offset_right = -15.0
+offset_bottom = 100.0
 grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 15
 
-[node name="WeaponLabel" type="Label" parent="EquipmentContainer"]
-unique_name_in_owner = true
+[node name="SideBtn1" type="Button" parent="Sidebar"]
+custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
-text = "Arma: Espada Oxidada"
-horizontal_alignment = 2
+text = "🗺️"
 
-[node name="SkillsLabel" type="Label" parent="EquipmentContainer"]
-unique_name_in_owner = true
+[node name="SideBtn2" type="Button" parent="Sidebar"]
+custom_minimum_size = Vector2(45, 45)
 layout_mode = 2
-text = "Habilidades: Ninguna"
-horizontal_alignment = 2
-autowrap_mode = 3
+text = "📜"
 
-[node name="CenterContainer" type="CenterContainer" parent="."]
+[node name="SideBtn3" type="Button" parent="Sidebar"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+text = "🎁"
+
+[node name="SideBtn4" type="Button" parent="Sidebar"]
+custom_minimum_size = Vector2(45, 45)
+layout_mode = 2
+text = "⚙️"
+
+[node name="CharacterContainer" type="Control" parent="."]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = -75.0
+offset_right = 100.0
+offset_bottom = 75.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-theme_override_constants/separation = 50
-
-[node name="CharacterContainer" type="Control" parent="CenterContainer/VBoxContainer"]
-custom_minimum_size = Vector2(200, 150)
-layout_mode = 2
-
-[node name="CharacterVisuals" parent="CenterContainer/VBoxContainer/CharacterContainer" instance=ExtResource("2_visuals")]
+[node name="CharacterVisuals" parent="CharacterContainer" instance=ExtResource("2_visuals")]
 unique_name_in_owner = true
 position = Vector2(100, 75)
 
-[node name="ActionButton" type="Button" parent="CenterContainer/VBoxContainer"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(200, 60)
-layout_mode = 2
-text = "TOGGLE MODE"
+[node name="MiniMap" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -190.0
+offset_right = 100.0
+offset_bottom = -110.0
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_biome")
 
-[node name="StatusLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+[node name="NavBar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -90.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="NavReino" type="Button" parent="NavBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🏰"
+
+[node name="NavSaco" type="Button" parent="NavBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🎒"
+
+[node name="ActionSphere" type="Button" parent="NavBar"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(70, 70)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "⚔️"
+
+[node name="NavEstilo" type="Button" parent="NavBar"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Explorando..."
-horizontal_alignment = 1
+size_flags_horizontal = 3
+text = "👕"
+
+[node name="NavSocial" type="Button" parent="NavBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "🧙"
 
 [node name="NotificationPanel" type="PanelContainer" parent="."]
 unique_name_in_owner = true
@@ -149,26 +263,26 @@ offset_bottom = 100.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="NotificationPanel"]
+[node name="VBox" type="VBoxContainer" parent="NotificationPanel"]
 layout_mode = 2
 alignment = 1
 
-[node name="NotificationText" type="Label" parent="NotificationPanel/VBoxContainer"]
+[node name="NotificationText" type="Label" parent="NotificationPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Evento de Decisión"
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="HSeparator" type="HSeparator" parent="NotificationPanel/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="NotificationPanel/VBox"]
 layout_mode = 2
 
-[node name="Option1" type="Button" parent="NotificationPanel/VBoxContainer"]
+[node name="Option1" type="Button" parent="NotificationPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Opción 1"
 
-[node name="Option2" type="Button" parent="NotificationPanel/VBoxContainer"]
+[node name="Option2" type="Button" parent="NotificationPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Opción 2"
@@ -182,84 +296,84 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CustomizationPanel"]
+[node name="VBox" type="VBoxContainer" parent="CustomizationPanel"]
 layout_mode = 2
 size_flags_horizontal = 4
 alignment = 1
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer"]
+[node name="Label" type="Label" parent="CustomizationPanel/VBox"]
 layout_mode = 2
 text = "Personaliza tu personaje"
 horizontal_alignment = 1
 
-[node name="NameInput" type="LineEdit" parent="CustomizationPanel/VBoxContainer"]
+[node name="NameInput" type="LineEdit" parent="CustomizationPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "Nombre del personaje"
 alignment = 1
 
-[node name="HBoxSkin" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+[node name="HBoxSkin" type="HBoxContainer" parent="CustomizationPanel/VBox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxSkin"]
+[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxSkin"]
 layout_mode = 2
 text = "Color de Piel: "
 
-[node name="SkinColor" type="ColorPickerButton" parent="CustomizationPanel/VBoxContainer/HBoxSkin"]
+[node name="SkinColor" type="ColorPickerButton" parent="CustomizationPanel/VBox/HBoxSkin"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(1, 0.878431, 0.741176, 1)
 
-[node name="HBoxHair" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+[node name="HBoxHair" type="HBoxContainer" parent="CustomizationPanel/VBox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxHair"]
+[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxHair"]
 layout_mode = 2
 text = "Peinado: "
 
-[node name="HairStyle" type="OptionButton" parent="CustomizationPanel/VBoxContainer/HBoxHair"]
+[node name="HairStyle" type="OptionButton" parent="CustomizationPanel/VBox/HBoxHair"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxEyes" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+[node name="HBoxEyes" type="HBoxContainer" parent="CustomizationPanel/VBox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxEyes"]
+[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxEyes"]
 layout_mode = 2
 text = "Ojos: "
 
-[node name="EyeStyle" type="OptionButton" parent="CustomizationPanel/VBoxContainer/HBoxEyes"]
+[node name="EyeStyle" type="OptionButton" parent="CustomizationPanel/VBox/HBoxEyes"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxMouth" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+[node name="HBoxMouth" type="HBoxContainer" parent="CustomizationPanel/VBox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxMouth"]
+[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxMouth"]
 layout_mode = 2
 text = "Boca: "
 
-[node name="MouthStyle" type="OptionButton" parent="CustomizationPanel/VBoxContainer/HBoxMouth"]
+[node name="MouthStyle" type="OptionButton" parent="CustomizationPanel/VBox/HBoxMouth"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="HBoxBody" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+[node name="HBoxBody" type="HBoxContainer" parent="CustomizationPanel/VBox"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxBody"]
+[node name="Label" type="Label" parent="CustomizationPanel/VBox/HBoxBody"]
 layout_mode = 2
 text = "Físico: "
 
-[node name="BodyStyle" type="OptionButton" parent="CustomizationPanel/VBoxContainer/HBoxBody"]
+[node name="BodyStyle" type="OptionButton" parent="CustomizationPanel/VBox/HBoxBody"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ConfirmButton" type="Button" parent="CustomizationPanel/VBoxContainer"]
+[node name="ConfirmButton" type="Button" parent="CustomizationPanel/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Empezar Aventura"
