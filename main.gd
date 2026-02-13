@@ -3,7 +3,7 @@ extends Control
 # Enlaces a los nodos de la interfaz (Usando % para Nodos Únicos de Escena)
 @onready var world_background: TextureRect = %WorldBackground
 @onready var action_button: Button = %ActionButton
-@onready var sprite: Label = %Sprite
+@onready var character_visuals: Node2D = %CharacterVisuals
 @onready var valor_bar: ProgressBar = %ValorBar
 @onready var sabiduria_bar: ProgressBar = %SabiduriaBar
 @onready var empatia_label: Label = %EmpatiaLabel
@@ -17,6 +17,11 @@ extends Control
 @onready var option_2: Button = %Option2
 @onready var customization_panel: PanelContainer = %CustomizationPanel
 @onready var name_input: LineEdit = %NameInput
+@onready var skin_color: ColorPickerButton = %SkinColor
+@onready var hair_style_btn: OptionButton = %HairStyle
+@onready var eye_style_btn: OptionButton = %EyeStyle
+@onready var mouth_style_btn: OptionButton = %MouthStyle
+@onready var body_style_btn: OptionButton = %BodyStyle
 @onready var confirm_button: Button = %ConfirmButton
 
 # Estados del juego
@@ -26,6 +31,7 @@ var combat_gradient: GradientTexture2D
 
 var stats: CharacterStats = CharacterStats.new()
 var autonomy_timer: Timer
+var idle_tween: Tween
 
 var weapon_level: int = 0
 var skills: Array[String] = []
@@ -50,6 +56,23 @@ func _ready() -> void:
 	option_1.pressed.connect(_on_option_1_pressed)
 	option_2.pressed.connect(_on_option_2_pressed)
 	confirm_button.pressed.connect(_on_confirm_customization)
+
+	# Inicializar opciones de personalización
+	hair_style_btn.add_item("Lacio", 0)
+	hair_style_btn.add_item("Rizado", 1)
+	hair_style_btn.add_item("Picos", 2)
+
+	eye_style_btn.add_item("Normal", 0)
+	eye_style_btn.add_item("Enojado", 1)
+	eye_style_btn.add_item("Muerto", 2)
+
+	mouth_style_btn.add_item("Feliz", 0)
+	mouth_style_btn.add_item("Asombrado", 1)
+	mouth_style_btn.add_item("Serio", 2)
+
+	body_style_btn.add_item("Normal", 0)
+	body_style_btn.add_item("Pequeño", 1)
+	body_style_btn.add_item("Grande", 2)
 	
 	_start_idle_animation()
 	_update_stats_display()
@@ -65,9 +88,17 @@ func _ready() -> void:
 func _on_confirm_customization() -> void:
 	if name_input.text != "":
 		stats.character_name = name_input.text
+
+	stats.skin_color = skin_color.color
+	stats.hair_style = hair_style_btn.get_selected_id()
+	stats.eye_style = eye_style_btn.get_selected_id()
+	stats.mouth_style = mouth_style_btn.get_selected_id()
+	stats.body_style = body_style_btn.get_selected_id()
+
 	customization_panel.hide()
 	autonomy_timer.paused = false
 	_update_stats_display()
+	_start_idle_animation() # Reiniciar animación con nueva escala
 
 # Alterna entre el modo paz y el modo combate
 func _on_action_button_pressed() -> void:
@@ -200,11 +231,8 @@ func _update_stats_display() -> void:
 	ambicion_label.text = "Ambición: %.0f" % stats.ambicion
 	name_label.text = "%s - NIV. %d" % [stats.character_name, stats.level]
 	
-	# Evolución visual según la estadística dominante
-	if stats.valor > 85: sprite.text = "ᕦ(ò_ó)ᕤ"
-	elif stats.sabiduria > 85: sprite.text = "(∩｀-´)⊃━☆ﾟ.*･｡ﾟ"
-	elif stats.empatia > 85: sprite.text = "⸜(｡˃ ᵕ ˂ )⸝♡"
-	else: sprite.text = "(◕‿◕)"
+	if character_visuals:
+		character_visuals.update_appearance(stats)
 	
 	_update_background_aura()
 
@@ -215,12 +243,14 @@ func _update_background_aura() -> void:
 	elif stats.sabiduria > stats.valor: tint = Color(0.85, 0.85, 1)
 	world_background.self_modulate = tint
 
-# Animación de respiración/flotado del sprite
+# Animación de respiración/flotado del personaje
 func _start_idle_animation() -> void:
+	if idle_tween: idle_tween.kill()
 	await get_tree().process_frame
-	var tween = create_tween().set_loops().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	var base_y = sprite.position.y
-	tween.tween_property(sprite, "position:y", base_y - 10, 1.5)
-	tween.parallel().tween_property(sprite, "scale", Vector2(1.02, 1.02), 1.5)
-	tween.tween_property(sprite, "position:y", base_y, 1.5)
-	tween.parallel().tween_property(sprite, "scale", Vector2(1.0, 1.0), 1.5)
+	idle_tween = create_tween().set_loops().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	var base_y = character_visuals.position.y
+	var base_scale = character_visuals.scale
+	idle_tween.tween_property(character_visuals, "position:y", base_y - 10, 1.5)
+	idle_tween.parallel().tween_property(character_visuals, "scale", base_scale * 1.02, 1.5)
+	idle_tween.tween_property(character_visuals, "position:y", base_y, 1.5)
+	idle_tween.parallel().tween_property(character_visuals, "scale", base_scale, 1.5)

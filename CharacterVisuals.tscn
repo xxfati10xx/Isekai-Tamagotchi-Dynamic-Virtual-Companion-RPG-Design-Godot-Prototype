@@ -1,0 +1,39 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6y7k4u5q6m7"]
+
+[ext_resource type="Script" path="res://character_visuals.gd" id="1_script"]
+
+[node name="CharacterVisuals" type="Node2D"]
+script = ExtResource("1_script")
+
+[node name="Body" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-30, 50, 30, 50, 20, 0, -20, 0)
+
+[node name="Head" type="Polygon2D" parent="."]
+position = Vector2(0, -30)
+polygon = PackedVector2Array(-25, -25, 25, -25, 25, 25, -25, 25)
+
+[node name="Hair" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -70.0
+offset_right = 40.0
+offset_bottom = -44.0
+text = "|||||"
+horizontal_alignment = 1
+
+[node name="Eyes" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -45.0
+offset_right = 40.0
+offset_bottom = -19.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "◕ ◕"
+horizontal_alignment = 1
+
+[node name="Mouth" type="Label" parent="."]
+offset_left = -40.0
+offset_top = -25.0
+offset_right = 40.0
+offset_bottom = 1.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "◡"
+horizontal_alignment = 1

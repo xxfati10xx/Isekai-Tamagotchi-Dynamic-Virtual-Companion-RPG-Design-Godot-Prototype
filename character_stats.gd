@@ -8,12 +8,20 @@ class_name CharacterStats
 @export var empatia: float = 50.0
 @export var ambicion: float = 50.0
 
+# Atributos visuales
+@export var skin_color: Color = Color("ffe0bd")
+@export var hair_style: int = 0
+@export var face_style: int = 0
+@export var eye_style: int = 0
+@export var mouth_style: int = 0
+@export var body_style: int = 0
+
 # Progreso del personaje y bono permanente de legado
 @export var level: int = 1
 @export var legacy_bonus: float = 0.0
 
 # Inicialización de las estadísticas al crear un nuevo personaje
-func _init(_character_name: String = "Kaelen", _valor: float = 50.0, _sabiduria: float = 50.0, _empatia: float = 50.0, _ambicion: float = 50.0, _level: int = 1, _legacy_bonus: float = 0.0):
+func _init(_character_name: String = "Kaelen", _valor: float = 50.0, _sabiduria: float = 50.0, _empatia: float = 50.0, _ambicion: float = 50.0, _level: int = 1, _legacy_bonus: float = 0.0, _skin_color: Color = Color("ffe0bd"), _hair_style: int = 0, _face_style: int = 0, _eye_style: int = 0, _mouth_style: int = 0, _body_style: int = 0):
 	character_name = _character_name
 	valor = _valor
 	sabiduria = _sabiduria
@@ -21,6 +29,12 @@ func _init(_character_name: String = "Kaelen", _valor: float = 50.0, _sabiduria:
 	ambicion = _ambicion
 	level = _level
 	legacy_bonus = _legacy_bonus
+	skin_color = _skin_color
+	hair_style = _hair_style
+	face_style = _face_style
+	eye_style = _eye_style
+	mouth_style = _mouth_style
+	body_style = _body_style
 
 # Actualiza las estadísticas aplicando el bono de legado acumulado a las ganancias
 func update_stats(delta_valor: float, delta_sabiduria: float, delta_empatia: float, delta_ambicion: float):

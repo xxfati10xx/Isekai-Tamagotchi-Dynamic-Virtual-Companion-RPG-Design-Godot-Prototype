@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8y7k4u5q6m7"]
+[gd_scene load_steps=3 format=3 uid="uid://b8y7k4u5q6m7"]
 
 [ext_resource type="Script" path="res://main.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://c6y7k4u5q6m7" path="res://CharacterVisuals.tscn" id="2_visuals"]
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -112,12 +113,13 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_constants/separation = 50
 
-[node name="Sprite" type="Label" parent="CenterContainer/VBoxContainer"]
-unique_name_in_owner = true
+[node name="CharacterContainer" type="Control" parent="CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 150)
 layout_mode = 2
-theme_override_font_sizes/font_size = 100
-text = "(◕‿◕)"
-horizontal_alignment = 1
+
+[node name="CharacterVisuals" parent="CenterContainer/VBoxContainer/CharacterContainer" instance=ExtResource("2_visuals")]
+unique_name_in_owner = true
+position = Vector2(100, 75)
 
 [node name="ActionButton" type="Button" parent="CenterContainer/VBoxContainer"]
 unique_name_in_owner = true
@@ -182,6 +184,7 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CustomizationPanel"]
 layout_mode = 2
+size_flags_horizontal = 4
 alignment = 1
 
 [node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer"]
@@ -194,6 +197,67 @@ unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "Nombre del personaje"
 alignment = 1
+
+[node name="HBoxSkin" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxSkin"]
+layout_mode = 2
+text = "Color de Piel: "
+
+[node name="SkinColor" type="ColorPickerButton" parent="CustomizationPanel/VBoxContainer/HBoxSkin"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 0.878431, 0.741176, 1)
+
+[node name="HBoxHair" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxHair"]
+layout_mode = 2
+text = "Peinado: "
+
+[node name="HairStyle" type="OptionButton" parent="CustomizationPanel/VBoxContainer/HBoxHair"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxEyes" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxEyes"]
+layout_mode = 2
+text = "Ojos: "
+
+[node name="EyeStyle" type="OptionButton" parent="CustomizationPanel/VBoxContainer/HBoxEyes"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxMouth" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxMouth"]
+layout_mode = 2
+text = "Boca: "
+
+[node name="MouthStyle" type="OptionButton" parent="CustomizationPanel/VBoxContainer/HBoxMouth"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxBody" type="HBoxContainer" parent="CustomizationPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CustomizationPanel/VBoxContainer/HBoxBody"]
+layout_mode = 2
+text = "Físico: "
+
+[node name="BodyStyle" type="OptionButton" parent="CustomizationPanel/VBoxContainer/HBoxBody"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="ConfirmButton" type="Button" parent="CustomizationPanel/VBoxContainer"]
 unique_name_in_owner = true
