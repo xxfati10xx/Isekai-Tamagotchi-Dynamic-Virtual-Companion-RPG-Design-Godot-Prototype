@@ -1,0 +1,144 @@
+[gd_scene load_steps=2 format=3 uid="uid://b8y7k4u5q6m7"]
+
+[ext_resource type="Script" path="res://main.gd" id="1_script"]
+
+[node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="WorldBackground" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+
+[node name="StatsContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 220.0
+offset_bottom = 156.0
+
+[node name="ValorLabel" type="Label" parent="StatsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Valor: 50"
+
+[node name="SabiduriaLabel" type="Label" parent="StatsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Sabiduría: 50"
+
+[node name="EmpatiaLabel" type="Label" parent="StatsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Empatía: 50"
+
+[node name="AmbicionLabel" type="Label" parent="StatsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Ambición: 50"
+
+[node name="EquipmentContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -300.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 156.0
+grow_horizontal = 0
+
+[node name="WeaponLabel" type="Label" parent="EquipmentContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Arma: Espada Oxidada"
+horizontal_alignment = 2
+
+[node name="SkillsLabel" type="Label" parent="EquipmentContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Habilidades: Ninguna"
+horizontal_alignment = 2
+autowrap_mode = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Sprite" type="Label" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "(◕‿◕)"
+horizontal_alignment = 1
+
+[node name="ActionButton" type="Button" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 2
+text = "TOGGLE MODE"
+
+[node name="StatusLabel" type="Label" parent="CenterContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Explorando..."
+horizontal_alignment = 1
+
+[node name="NotificationPanel" type="PanelContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -100.0
+offset_right = 150.0
+offset_bottom = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NotificationPanel"]
+layout_mode = 2
+alignment = 1
+
+[node name="NotificationText" type="Label" parent="NotificationPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Evento de Decisión"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HSeparator" type="HSeparator" parent="NotificationPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Option1" type="Button" parent="NotificationPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Opción 1"
+
+[node name="Option2" type="Button" parent="NotificationPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Opción 2"
