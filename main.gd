@@ -66,6 +66,16 @@ func _ready() -> void:
 	confirm_button.pressed.connect(_on_confirm_customization)
 	toggle_mode_button.pressed.connect(_on_toggle_mode_pressed)
 
+	# Conexiones para vista previa en tiempo real
+	skin_color.color_changed.connect(_on_customization_preview)
+	hair_color.color_changed.connect(_on_customization_preview)
+	eye_color.color_changed.connect(_on_customization_preview)
+	outfit_color.color_changed.connect(_on_customization_preview)
+	hair_style_btn.item_selected.connect(_on_customization_preview)
+	eye_style_btn.item_selected.connect(_on_customization_preview)
+	mouth_style_btn.item_selected.connect(_on_customization_preview)
+	body_style_btn.item_selected.connect(_on_customization_preview)
+
 	nav_reino.pressed.connect(func(): _show_placeholder_notification("Reino"))
 	nav_saco.pressed.connect(func(): _show_placeholder_notification("Saco"))
 	nav_estilo.pressed.connect(_open_customization)
@@ -109,6 +119,19 @@ func _ready() -> void:
 	autonomy_timer.timeout.connect(_on_autonomy_tick)
 	add_child(autonomy_timer)
 	autonomy_timer.paused = true
+
+func _on_customization_preview(_value = null) -> void:
+	stats.skin_color = skin_color.color
+	stats.hair_color = hair_color.color
+	stats.eye_color = eye_color.color
+	stats.outfit_color = outfit_color.color
+	stats.hair_style = hair_style_btn.get_selected_id()
+	stats.eye_style = eye_style_btn.get_selected_id()
+	stats.mouth_style = mouth_style_btn.get_selected_id()
+	stats.body_style = body_style_btn.get_selected_id()
+
+	if character_visuals:
+		character_visuals.update_appearance(stats, true)
 
 func _open_customization() -> void:
 	name_input.text = stats.character_name
